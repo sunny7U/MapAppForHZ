@@ -361,7 +361,9 @@ public class RouteNaviActivity extends Activity implements LocationSource,OnInfo
         	        }
         			Cursor cursor=db.query("Node", null, "name = ?",new String[]{user_id}, null, null, null);
         			if(cursor.moveToFirst()){
-        				 userItems.add(new PoiItem(user_name, user_id,user_addr));
+        				//此处为了兼容最早的数据。如果该点是单个用户点，则输入户名后找出户号，确定户号在Node表中，再找出Node表中对应的name(其实就是户号）
+        				 String name=cursor.getString(cursor.getColumnIndex("name"));
+        				 userItems.add(new PoiItem(user_name, name,user_addr));
         				 cursor.close();
         			}
         			nodeCursor.moveToNext();
